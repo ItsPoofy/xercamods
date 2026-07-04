@@ -41,6 +41,8 @@ public class SoundEvents {
     public static final List<Pair<Integer, SoundEvent>> trumpets = new ArrayList<>(7);
     public static final List<Pair<Integer, SoundEvent>> redstone_pianos = new ArrayList<>(13);
     public static final List<Pair<Integer, SoundEvent>> organs = new ArrayList<>(11);
+    public static final List<Pair<Integer, SoundEvent>> harpsichords = new ArrayList<>(10);
+    public static final List<Pair<Integer, SoundEvent>> steelpans = new ArrayList<>(9);
 
     private static final String NAME_GUITAR = "guitar";
     private static final String NAME_DRUM_KIT = "drum_kit";
@@ -64,6 +66,8 @@ public class SoundEvents {
     private static final String NAME_HARP_MC = "harp_mc";
     private static final String NAME_REDSTONE_PIANO = "redstone_piano";
     private static final String NAME_ORGAN = "organ";
+    private static final String NAME_HARPSICHORD = "harpsichord";
+    private static final String NAME_STEELPAN = "steelpan";
 
     private SoundEvents() {
     }
@@ -113,6 +117,8 @@ public class SoundEvents {
         trumpets.clear();
         redstone_pianos.clear();
         organs.clear();
+        harpsichords.clear();
+        steelpans.clear();
 
         // ranges
         addRange(drum_kits, NAME_DRUM_KIT, 21, 116);
@@ -189,6 +195,11 @@ public class SoundEvents {
         addFixed(organs, NAME_ORGAN,
                 36, 42, 48, 54, 60, 66, 72, 78, 84, 90, 96);
 
+        addFixed(harpsichords, NAME_HARPSICHORD,
+                30, 36, 42, 48, 54, 60, 66, 72, 78, 84);
+        addFixed(steelpans, NAME_STEELPAN,
+                42, 48, 54, 60, 66, 72, 78, 84, 90);
+
         // Instrument SoundEvent setting
         ((IItemInstrument) Items.CYMBAL).setSounds(cymbals);
         ((IItemInstrument) Items.DRUM_KIT).setSounds(drum_kits);
@@ -212,6 +223,8 @@ public class SoundEvents {
         ((IItemInstrument) Items.TRUMPET).setSounds(trumpets);
         ((IItemInstrument) Items.REDSTONE_PIANO).setSounds(redstone_pianos);
         ((IItemInstrument) Items.ORGAN).setSounds(organs);
+        ((IItemInstrument) Items.HARPSICHORD).setSounds(harpsichords);
+        ((IItemInstrument) Items.STEELPAN).setSounds(steelpans);
 
         ((IItemInstrument) Items.HARP_MC).setSounds(harp_mcs);
     }
