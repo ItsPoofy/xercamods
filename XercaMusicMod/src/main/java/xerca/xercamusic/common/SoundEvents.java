@@ -41,6 +41,8 @@ public class SoundEvents {
     public static ArrayList<Pair<Integer, SoundEvent>> trumpets;
     public static ArrayList<Pair<Integer, SoundEvent>> redstone_pianos;
     public static ArrayList<Pair<Integer, SoundEvent>> organs;
+    public static ArrayList<Pair<Integer, SoundEvent>> harpsichords;
+    public static ArrayList<Pair<Integer, SoundEvent>> steelpans;
 
     private static final String NAME_GUITAR = "guitar";
     private static final String NAME_DRUM_KIT = "drum_kit";
@@ -62,7 +64,8 @@ public class SoundEvents {
     private static final String NAME_FRENCH_HORN = "french_horn";
     private static final String NAME_BASS_GUITAR = "bass_guitar";
     private static final String NAME_HARP_MC = "harp_mc";
-
+    private static final String NAME_HARPSICHORD = "harpsichord";
+    private static final String NAME_STEELPAN = "steelpan";
     private static SoundEvent createSoundEvent(String soundName) {
         final ResourceLocation soundID = Mod.id(soundName);
         final SoundEvent soundEvent = SoundEvent.createVariableRangeEvent(soundID);
@@ -119,7 +122,8 @@ public class SoundEvents {
         trumpets = new ArrayList<>(7);
         redstone_pianos = new ArrayList<>(13);
         organs = new ArrayList<>(10);
-
+        harpsichords = new ArrayList<>(10);
+        steelpans = new ArrayList<>(10);
         // ranges
         addRange(drum_kits, NAME_DRUM_KIT, 21, 116);
         addRange(harp_mcs, NAME_HARP_MC, 27, 111, 6);
@@ -214,6 +218,20 @@ public class SoundEvents {
         addSound(organs, "organ", 84);
         addSound(organs, "organ", 90);
         addSound(organs, "organ", 96);
+        
+        //Harpsichord
+        addSound(harpsichords, "harpsichord", 30);
+        addSound(harpsichords, "harpsichord", 36);
+        addSound(harpsichords, "harpsichord", 42);
+        addSound(harpsichords, "harpsichord", 48);
+        addSound(harpsichords, "harpsichord", 54);
+        addSound(harpsichords, "harpsichord", 60);
+        addSound(harpsichords, "harpsichord", 66);
+        addSound(harpsichords, "harpsichord", 72);
+        addSound(harpsichords, "harpsichord", 78);
+        addSound(harpsichords, "harpsichord", 84);
+        
+        addFixed(steelpans, NAME_STEELPAN, 42, 48, 54, 60, 66, 72, 78, 84, 90);
 
         // Instrument SoundEvent setting
         ((IItemInstrument) Items.CYMBAL).setSounds(cymbals);
@@ -238,6 +256,8 @@ public class SoundEvents {
         ((IItemInstrument) Items.TRUMPET).setSounds(trumpets);
         ((IItemInstrument) Items.REDSTONE_PIANO).setSounds(redstone_pianos);
         ((IItemInstrument) Items.ORGAN).setSounds(organs);
+        ((IItemInstrument) Items.HARPSICHORD).setSounds(harpsichords);
+        ((IItemInstrument) Items.STEELPAN).setSounds(steelpans);
 
         ((IItemInstrument) Items.HARP_MC).setSounds(harp_mcs);
     }

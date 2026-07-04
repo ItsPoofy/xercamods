@@ -46,6 +46,8 @@ public final class Items {
     public static final Item TRUMPET = new ItemInstrument(19, 2, 5);  // Trumpet range: F#3 to D6
     public static final Item REDSTONE_PIANO = new ItemInstrument(20, 0, 6);  // Full piano range
     public static final Item ORGAN = new ItemInstrument(21, 1, 6);  // Full organ range
+    public static final Item HARPSICHORD = new ItemInstrument(22, 0, 5);
+    public static final Item STEELPAN = new ItemInstrument(23, 1, 5);  // Steelpan range: C4 to D#6
     public static final Item MUSIC_SHEET = new ItemMusicSheet();
 
     public static final CreativeModeTab MUSIC_TAB = FabricItemGroup.builder()
@@ -74,6 +76,8 @@ public final class Items {
                 output.accept(TRUMPET);
                 output.accept(REDSTONE_PIANO);
                 output.accept(ORGAN);
+                output.accept(HARPSICHORD);
+                output.accept(STEELPAN);
                 output.accept(Blocks.MUSIC_BOX);
                 output.accept(Blocks.BLOCK_METRONOME);
             })
@@ -86,7 +90,7 @@ public final class Items {
             (IItemInstrument) SANSULA, (IItemInstrument) VIOLIN, (IItemInstrument) CELLO, (IItemInstrument) FLUTE,
             (IItemInstrument) SAXOPHONE, (IItemInstrument) GOD, (IItemInstrument) PIANO, (IItemInstrument) OBOE,
             (IItemInstrument) REDSTONE_GUITAR, (IItemInstrument) FRENCH_HORN, (IItemInstrument) BASS_GUITAR,
-            (IItemInstrument) TRUMPET, (IItemInstrument) REDSTONE_PIANO, (IItemInstrument) ORGAN
+            (IItemInstrument) TRUMPET, (IItemInstrument) REDSTONE_PIANO, (IItemInstrument) ORGAN, (IItemInstrument) HARPSICHORD, (IItemInstrument) STEELPAN
     );
 
     public static final RecipeSerializer<RecipeNoteCloning> CRAFTING_SPECIAL_NOTECLONING = new SimpleCraftingRecipeSerializer<>(RecipeNoteCloning::new);
@@ -144,6 +148,8 @@ public final class Items {
         registerItem("trumpet", TRUMPET);
         registerItem("redstone_piano", REDSTONE_PIANO);
         registerItem("organ", ORGAN);
+        registerItem("harpsichord", HARPSICHORD);
+        registerItem("steelpan", STEELPAN);
         registerItem("harp_mc", HARP_MC);
         registerItem("music_sheet", MUSIC_SHEET);
         registerItem("music_box", new BlockItem(Blocks.MUSIC_BOX, new Item.Properties()));

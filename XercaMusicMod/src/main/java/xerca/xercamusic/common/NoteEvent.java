@@ -17,6 +17,16 @@ public class NoteEvent implements Serializable {
     // Articulation flags (bit flags)
     public static final byte FLAG_NONE = 0;
     public static final byte FLAG_GLISSANDO = 1;    // Smooth pitch slide to target note
+    public static final byte FLAG_VIBRATO = 1 << 1; // Periodic pitch modulation around the note
+    public static final byte DEFAULT_VIBRATO_DEPTH_CENTS = 25;
+    public static final byte DEFAULT_VIBRATO_RATE_TENTHS_HZ = 50;
+    public static final byte DEFAULT_VIBRATO_DELAY_TICKS = 2;
+    public static final byte DEFAULT_VIBRATO_FADE_TICKS = 4;
+    public static final int MIN_VIBRATO_DEPTH_CENTS = 5;
+    public static final int MAX_VIBRATO_DEPTH_CENTS = 100;
+    public static final int MIN_VIBRATO_RATE_TENTHS_HZ = 20;
+    public static final int MAX_VIBRATO_RATE_TENTHS_HZ = 80;
+    public static final int MAX_VIBRATO_ENVELOPE_TICKS = 40;
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -28,6 +38,10 @@ public class NoteEvent implements Serializable {
     public byte glissandoInterval;  // Signed semitones to slide for glissando (+up, -down); used for single-point
     public byte[] glissandoWaypoints; // Multi-point glissando: array of semitone offsets. null = use glissandoInterval
     public byte[] glissandoWaypointPositions; // Parallel to glissandoWaypoints: beat position as % of note length (1-100). null = evenly spaced.
+    private byte vibratoDepthCents;
+    private byte vibratoRateTenthsHz;
+    private byte vibratoDelayTicks;
+    private byte vibratoFadeTicks;
 
     public NoteEvent(byte note, short time, byte volume, byte length) {
         this(note, time, volume, length, FLAG_NONE, (byte) 0);
@@ -42,9 +56,11 @@ public class NoteEvent implements Serializable {
         this.glissandoInterval = glissandoInterval;
         this.glissandoWaypoints = null;
         this.glissandoWaypointPositions = null;
+        resetVibratoSettings();
     }
 
     public NoteEvent() {
+        resetVibratoSettings();
     }
 
     public NoteEvent(NoteEvent noteEvent) {
@@ -60,6 +76,10 @@ public class NoteEvent implements Serializable {
         this.glissandoWaypointPositions = noteEvent.glissandoWaypointPositions != null
                 ? noteEvent.glissandoWaypointPositions.clone()
                 : null;
+        this.vibratoDepthCents = noteEvent.vibratoDepthCents;
+        this.vibratoRateTenthsHz = noteEvent.vibratoRateTenthsHz;
+        this.vibratoDelayTicks = noteEvent.vibratoDelayTicks;
+        this.vibratoFadeTicks = noteEvent.vibratoFadeTicks;
     }
 
     public static NoteEvent fromNBT(CompoundTag tag) {
@@ -156,6 +176,73 @@ public class NoteEvent implements Serializable {
         return (flags & FLAG_GLISSANDO) != 0;
     }
 
+    public boolean hasVibrato() {
+        return (flags & FLAG_VIBRATO) != 0;
+    }
+
+    public void setVibratoEnabled(boolean enabled) {
+        if (enabled) {
+            flags |= FLAG_VIBRATO;
+            sanitizeVibratoSettings();
+        } else {
+            flags &= ~FLAG_VIBRATO;
+        }
+    }
+
+    public void setVibratoDepthCents(int cents) {
+        vibratoDepthCents = (byte) Math.max(MIN_VIBRATO_DEPTH_CENTS, Math.min(MAX_VIBRATO_DEPTH_CENTS, cents));
+    }
+
+    public void setVibratoRateTenthsHz(int tenthsHz) {
+        vibratoRateTenthsHz = (byte) Math.max(MIN_VIBRATO_RATE_TENTHS_HZ, Math.min(MAX_VIBRATO_RATE_TENTHS_HZ, tenthsHz));
+    }
+
+    public void setVibratoDelayTicks(int ticks) {
+        vibratoDelayTicks = (byte) Math.max(0, Math.min(MAX_VIBRATO_ENVELOPE_TICKS, ticks));
+    }
+
+    public void setVibratoFadeTicks(int ticks) {
+        vibratoFadeTicks = (byte) Math.max(0, Math.min(MAX_VIBRATO_ENVELOPE_TICKS, ticks));
+    }
+
+    public float vibratoDepthSemitones() {
+        return (vibratoDepthCents & 0xFF) / 100.0f;
+    }
+
+    public int vibratoDepthCents() {
+        return vibratoDepthCents & 0xFF;
+    }
+
+    public float vibratoRateHz() {
+        return (vibratoRateTenthsHz & 0xFF) / 10.0f;
+    }
+
+    public float vibratoDelaySeconds() {
+        return (vibratoDelayTicks & 0xFF) / 20.0f;
+    }
+
+    public float vibratoFadeSeconds() {
+        return (vibratoFadeTicks & 0xFF) / 20.0f;
+    }
+
+    private void resetVibratoSettings() {
+        vibratoDepthCents = DEFAULT_VIBRATO_DEPTH_CENTS;
+        vibratoRateTenthsHz = DEFAULT_VIBRATO_RATE_TENTHS_HZ;
+        vibratoDelayTicks = DEFAULT_VIBRATO_DELAY_TICKS;
+        vibratoFadeTicks = DEFAULT_VIBRATO_FADE_TICKS;
+    }
+
+    private void sanitizeVibratoSettings() {
+        int depth = vibratoDepthCents & 0xFF;
+        int rate = vibratoRateTenthsHz & 0xFF;
+        int delay = vibratoDelayTicks & 0xFF;
+        int fade = vibratoFadeTicks & 0xFF;
+        setVibratoDepthCents(depth == 0 ? DEFAULT_VIBRATO_DEPTH_CENTS : depth);
+        setVibratoRateTenthsHz(rate == 0 ? DEFAULT_VIBRATO_RATE_TENTHS_HZ : rate);
+        setVibratoDelayTicks(delay);
+        setVibratoFadeTicks(fade);
+    }
+
     public void setGlissando(boolean enabled, byte interval) {
         if (enabled) {
             flags |= FLAG_GLISSANDO;
@@ -250,6 +337,12 @@ public class NoteEvent implements Serializable {
         } else if (glissandoInterval != 0) {
             tag.putByte("ti", glissandoInterval);
         }
+        if (hasVibrato()) {
+            tag.putByte("vd", vibratoDepthCents);
+            tag.putByte("vr", vibratoRateTenthsHz);
+            tag.putByte("vy", vibratoDelayTicks);
+            tag.putByte("vf", vibratoFadeTicks);
+        }
         return tag;
     }
 
@@ -273,6 +366,22 @@ public class NoteEvent implements Serializable {
             this.glissandoInterval = tag.contains("ti") ? tag.getByte("ti") : 0;
             this.glissandoWaypoints = null;
             this.glissandoWaypointPositions = null;
+        }
+        resetVibratoSettings();
+        if (hasVibrato()) {
+            if (tag.contains("vd")) {
+                this.vibratoDepthCents = tag.getByte("vd");
+            }
+            if (tag.contains("vr")) {
+                this.vibratoRateTenthsHz = tag.getByte("vr");
+            }
+            if (tag.contains("vy")) {
+                this.vibratoDelayTicks = tag.getByte("vy");
+            }
+            if (tag.contains("vf")) {
+                this.vibratoFadeTicks = tag.getByte("vf");
+            }
+            sanitizeVibratoSettings();
         }
     }
 
@@ -298,6 +407,12 @@ public class NoteEvent implements Serializable {
             for (byte p : pos) {
                 buf.writeByte(p);
             }
+        }
+        if (hasVibrato()) {
+            buf.writeByte(vibratoDepthCents);
+            buf.writeByte(vibratoRateTenthsHz);
+            buf.writeByte(vibratoDelayTicks);
+            buf.writeByte(vibratoFadeTicks);
         }
     }
 
@@ -329,6 +444,14 @@ public class NoteEvent implements Serializable {
             this.glissandoInterval = 0;
             this.glissandoWaypointPositions = null;
         }
+        resetVibratoSettings();
+        if (hasVibrato()) {
+            this.vibratoDepthCents = buf.readByte();
+            this.vibratoRateTenthsHz = buf.readByte();
+            this.vibratoDelayTicks = buf.readByte();
+            this.vibratoFadeTicks = buf.readByte();
+            sanitizeVibratoSettings();
+        }
     }
 
     public float floatVolume() {
@@ -345,6 +468,10 @@ public class NoteEvent implements Serializable {
         if (glissandoWaypointPositions != null) {
             copy.glissandoWaypointPositions = glissandoWaypointPositions.clone();
         }
+        copy.vibratoDepthCents = vibratoDepthCents;
+        copy.vibratoRateTenthsHz = vibratoRateTenthsHz;
+        copy.vibratoDelayTicks = vibratoDelayTicks;
+        copy.vibratoFadeTicks = vibratoFadeTicks;
         return copy;
     }
 }
