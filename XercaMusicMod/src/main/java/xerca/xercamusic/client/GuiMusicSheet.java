@@ -43,7 +43,8 @@ public class GuiMusicSheet extends Screen {
     private static final String[] OCTAVE_NAMES = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII"};
     private static final ResourceLocation NOTE_GUI_LEFT_TEXTURE = Mod.id("textures/gui/music_sheet_left.png");
     private static final ResourceLocation NOTE_GUI_TEXTURES = Mod.id("textures/gui/music_sheet.png");
-    private static final ResourceLocation INSTRUMENT_TEXTURES = Mod.id("textures/gui/instruments.png");
+    private static final ResourceLocation LOCK_TEXTURE = Mod.id("textures/gui/transparent_lock.png");
+    private static final int INSTRUMENT_HOVER_COLOR = 0x8051A0D5;
     private static final int NOTE_IMAGE_LEFT_TEX_X = 175;
     private static final int NOTE_IMAGE_LEFT_TEX_Y = 51;
     private static final int NOTE_IMAGE_LEFT_WIDTH = 81;
@@ -125,7 +126,7 @@ public class GuiMusicSheet extends Screen {
     private ChangeableImageButton buttonPreview;
     private ChangeableImageButton buttonRecord;
     private ChangeableImageButton buttonHideNeighbors;
-    private LockImageButton buttonLockPrevIns;
+    private InstrumentItemButton buttonLockPrevIns;
     private boolean neighborsHidden;
     private boolean prevInsLocked;
     boolean selfSigned;
@@ -504,7 +505,7 @@ public class GuiMusicSheet extends Screen {
             }
         }));
 
-        this.buttonLockPrevIns = this.addRenderableWidget(new LockImageButton(noteImageLeftX + 110, 16, 16, 16, previewInstrument * 16 + 16, 32 * ((previewInstrument + 1) / 16), 16, INSTRUMENT_TEXTURES, button -> {
+        this.buttonLockPrevIns = this.addRenderableWidget(new InstrumentItemButton(noteImageLeftX + 110, 16, button -> {
             if (!isSigned || selfSigned || generation > 1) {
                 prevInsLocked = !prevInsLocked;
                 dirtyFlag.hasPrevInsLocked = true;
@@ -512,12 +513,13 @@ public class GuiMusicSheet extends Screen {
                     int index = getCurrentOffhandInsIndex();
                     if (index != previewInstrument) {
                         previewInstrument = index;
-                        this.buttonLockPrevIns.setTexStarts(previewInstrument * 16 + 16, 32 * ((previewInstrument + 1) / 16));
+                        this.buttonLockPrevIns.setInstrument(previewInstrument);
                         dirtyFlag.hasPrevIns = true;
                     }
                 }
             }
         }));
+        this.buttonLockPrevIns.setInstrument(previewInstrument);
 
         this.bpmUp = this.addRenderableWidget(Button.builder(Component.translatable("note.upButton"), button -> {
             if (!isSigned || selfSigned || generation > 1) {
@@ -1924,30 +1926,44 @@ public class GuiMusicSheet extends Screen {
         }
     }
 
-    public class LockImageButton extends ChangeableImageButton {
+    public class InstrumentItemButton extends Button {
+        private ItemStack instrumentStack = ItemStack.EMPTY;
 
-        public LockImageButton(int x, int y, int width, int height, int xTexStart, int yTexStart, int yDiffText, ResourceLocation texture, OnPress onClick) {
-            this(x, y, width, height, xTexStart, yTexStart, yDiffText, texture, 256, 256, onClick);
+        public InstrumentItemButton(int x, int y, OnPress onClick) {
+            super(x, y, 16, 16, Component.empty(), onClick, Button.DEFAULT_NARRATION);
         }
 
-        public LockImageButton(int x, int y, int width, int height, int xTexStart, int yTexStart, int yDiffText, ResourceLocation texture, int texWidth, int texHeight, OnPress onClick) {
-            this(x, y, width, height, xTexStart, yTexStart, yDiffText, texture, texWidth, texHeight, onClick, Component.empty());
-        }
-
-        public LockImageButton(int x, int y, int width, int height, int xTexStart, int yTexStart, int yDiffText, ResourceLocation texture, int texWidth, int texHeight, OnPress onClick, Component message) {
-            super(x, y, width, height, xTexStart, yTexStart, yDiffText, texture, texWidth, texHeight, onClick, message);
+        public void setInstrument(int instrumentIndex) {
+            if (instrumentIndex >= 0 && instrumentIndex < Items.INSTRUMENTS.size()) {
+                IItemInstrument instrument = Items.INSTRUMENTS.get(instrumentIndex);
+                if (instrument instanceof Item item) {
+                    instrumentStack = new ItemStack(item);
+                    return;
+                }
+            }
+            instrumentStack = ItemStack.EMPTY;
         }
 
         @Override
         public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-            int yTexStartNew = preRender();
-
-            guiGraphics.blit(resourceLocation, this.getX(), this.getY(), this.xTexStart, yTexStartNew, this.width, this.height, this.texWidth, this.texHeight);
-            if (prevInsLocked) {
-                guiGraphics.blit(resourceLocation, this.getX(), this.getY(), 0, (float) this.texHeight - this.height, this.width, this.height, this.texWidth, this.texHeight);
+            if (!instrumentStack.isEmpty()) {
+                guiGraphics.renderItem(instrumentStack, getX(), getY());
             }
 
-            postRender();
+            PoseStack pose = guiGraphics.pose();
+            if (isHovered && active) {
+                pose.pushPose();
+                pose.translate(0.0F, 0.0F, 200.0F);
+                guiGraphics.fill(getX(), getY(), getX() + width, getY() + height, INSTRUMENT_HOVER_COLOR);
+                pose.popPose();
+            }
+
+            if (prevInsLocked) {
+                pose.pushPose();
+                pose.translate(0.0F, 0.0F, 201.0F);
+                guiGraphics.blit(LOCK_TEXTURE, getX() + 1, getY(), 0, 0, 5, 7, 5, 7);
+                pose.popPose();
+            }
         }
     }
 
