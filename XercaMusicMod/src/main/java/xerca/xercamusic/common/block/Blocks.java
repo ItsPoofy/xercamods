@@ -15,11 +15,13 @@ public class Blocks {
     public static final Block MUSIC_BOX = new BlockMusicBox(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(2.f, 6.f).sound(SoundType.WOOD).isRedstoneConductor((blockState, blockGetter, blockPos) -> false));
     public static final Block PIANO = new BlockPiano();
     public static final Block DRUM_KIT = new BlockDrums();
+    public static final Block STEELPAN = new BlockSteelpan();
 
     public static void registerBlocks() {
         Registry.register(BuiltInRegistries.BLOCK, Mod.id("block_metronome"), BLOCK_METRONOME);
         Registry.register(BuiltInRegistries.BLOCK, Mod.id("music_box"), MUSIC_BOX);
         Registry.register(BuiltInRegistries.BLOCK, Mod.id("piano"), PIANO);
         Registry.register(BuiltInRegistries.BLOCK, Mod.id("drum_kit"), DRUM_KIT);
+        Registry.register(BuiltInRegistries.BLOCK, Mod.id("steelpan"), STEELPAN);
     }
 }
