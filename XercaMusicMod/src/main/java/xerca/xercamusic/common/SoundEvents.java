@@ -43,6 +43,7 @@ public class SoundEvents {
     public static final List<Pair<Integer, SoundEvent>> organs = new ArrayList<>(11);
     public static final List<Pair<Integer, SoundEvent>> harpsichords = new ArrayList<>(10);
     public static final List<Pair<Integer, SoundEvent>> steelpans = new ArrayList<>(9);
+    public static final List<Pair<Integer, SoundEvent>> cuicas = new ArrayList<>(10);
 
     private static final String NAME_GUITAR = "guitar";
     private static final String NAME_DRUM_KIT = "drum_kit";
@@ -68,6 +69,7 @@ public class SoundEvents {
     private static final String NAME_ORGAN = "organ";
     private static final String NAME_HARPSICHORD = "harpsichord";
     private static final String NAME_STEELPAN = "steelpan";
+    private static final String NAME_CUICA = "cuica";
 
     private SoundEvents() {
     }
@@ -119,6 +121,7 @@ public class SoundEvents {
         organs.clear();
         harpsichords.clear();
         steelpans.clear();
+        cuicas.clear();
 
         // ranges
         addRange(drum_kits, NAME_DRUM_KIT, 21, 116);
@@ -199,6 +202,8 @@ public class SoundEvents {
                 30, 36, 42, 48, 54, 60, 66, 72, 78, 84);
         addFixed(steelpans, NAME_STEELPAN,
                 42, 48, 54, 60, 66, 72, 78, 84, 90);
+        addFixed(cuicas, NAME_CUICA,
+                36, 42, 48, 54, 60, 66, 72, 78, 84, 90);
 
         // Instrument SoundEvent setting
         ((IItemInstrument) Items.CYMBAL).setSounds(cymbals);
@@ -225,6 +230,7 @@ public class SoundEvents {
         ((IItemInstrument) Items.ORGAN).setSounds(organs);
         ((IItemInstrument) Items.HARPSICHORD).setSounds(harpsichords);
         ((IItemInstrument) Items.STEELPAN).setSounds(steelpans);
+        ((IItemInstrument) Items.CUICA).setSounds(cuicas);
 
         ((IItemInstrument) Items.HARP_MC).setSounds(harp_mcs);
     }
