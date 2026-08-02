@@ -44,6 +44,8 @@ public class SoundEvents {
     public static ArrayList<Pair<Integer, SoundEvent>> harpsichords;
     public static ArrayList<Pair<Integer, SoundEvent>> steelpans;
     public static ArrayList<Pair<Integer, SoundEvent>> cuicas;
+    public static ArrayList<Pair<Integer, SoundEvent>> accordions;
+    public static ArrayList<Pair<Integer, SoundEvent>> tenor_saxophones;
 
     private static final String NAME_GUITAR = "guitar";
     private static final String NAME_DRUM_KIT = "drum_kit";
@@ -69,6 +71,8 @@ public class SoundEvents {
     private static final String NAME_HARPSICHORD = "harpsichord";
     private static final String NAME_STEELPAN = "steelpan";
     private static final String NAME_CUICA = "cuica";
+    private static final String NAME_ACCORDION = "accordion";
+    private static final String NAME_TENOR_SAXOPHONE = "tenor_saxophone";
     private static SoundEvent createSoundEvent(String soundName) {
         final ResourceLocation soundID = Mod.id(soundName);
         final SoundEvent soundEvent = SoundEvent.createVariableRangeEvent(soundID);
@@ -124,10 +128,12 @@ public class SoundEvents {
         bass_guitars = new ArrayList<>(8);
         trumpets = new ArrayList<>(7);
         redstone_pianos = new ArrayList<>(13);
-        organs = new ArrayList<>(10);
+        organs = new ArrayList<>(11);
         harpsichords = new ArrayList<>(10);
         steelpans = new ArrayList<>(10);
         cuicas = new ArrayList<>(10);
+        accordions = new ArrayList<>(11);
+        tenor_saxophones = new ArrayList<>(10);
         // ranges
         addRange(drum_kits, NAME_DRUM_KIT, 21, 116);
         addRange(harp_mcs, NAME_HARP_MC, 27, 111, 6);
@@ -216,7 +222,8 @@ public class SoundEvents {
         
         addFixed(steelpans, NAME_STEELPAN, 42, 48, 54, 60, 66, 72, 78, 84, 90);
         addFixed(cuicas, NAME_CUICA,  36, 42, 48, 54, 60, 66, 72, 78, 84, 90);
-
+        addFixed(accordions, NAME_ACCORDION, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90);
+        addFixed(tenor_saxophones, NAME_TENOR_SAXOPHONE, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78);
         // Instrument SoundEvent setting
         ((IItemInstrument) Items.CYMBAL).setSounds(cymbals);
         ((IItemInstrument) Items.DRUM_KIT).setSounds(drum_kits);
@@ -243,6 +250,8 @@ public class SoundEvents {
         ((IItemInstrument) Items.HARPSICHORD).setSounds(harpsichords);
         ((IItemInstrument) Items.STEELPAN).setSounds(steelpans);
         ((IItemInstrument) Items.CUICA).setSounds(cuicas);
+        ((IItemInstrument) Items.ACCORDION).setSounds(accordions);
+        ((IItemInstrument) Items.TENOR_SAXOPHONE).setSounds(tenor_saxophones);
         ((IItemInstrument) Items.HARP_MC).setSounds(harp_mcs);
     }
 

@@ -49,6 +49,8 @@ public final class Items {
     public static final Item HARPSICHORD = new ItemInstrument(22, 0, 5);
     public static final Item STEELPAN = new ItemBlockInstrument(23, 1, 5, Blocks.STEELPAN);
     public static final Item CUICA = new ItemInstrument(24, 1, 5);
+    public static final Item ACCORDION = new ItemInstrument(25, 0, 5);
+    public static final Item TENOR_SAXOPHONE = new ItemInstrument(26, 0, 4);
     public static final Item MUSIC_SHEET = new ItemMusicSheet();
 
     public static final CreativeModeTab MUSIC_TAB = FabricItemGroup.builder()
@@ -80,6 +82,8 @@ public final class Items {
                 output.accept(HARPSICHORD);
                 output.accept(STEELPAN);
                 output.accept(CUICA);
+                output.accept(ACCORDION);
+                output.accept(TENOR_SAXOPHONE);
                 output.accept(Blocks.MUSIC_BOX);
                 output.accept(Blocks.BLOCK_METRONOME);
             })
@@ -93,7 +97,7 @@ public final class Items {
             (IItemInstrument) SAXOPHONE, (IItemInstrument) GOD, (IItemInstrument) PIANO, (IItemInstrument) OBOE,
             (IItemInstrument) REDSTONE_GUITAR, (IItemInstrument) FRENCH_HORN, (IItemInstrument) BASS_GUITAR,
             (IItemInstrument) TRUMPET, (IItemInstrument) REDSTONE_PIANO, (IItemInstrument) ORGAN, (IItemInstrument) HARPSICHORD, 
-            (IItemInstrument) STEELPAN, (IItemInstrument) CUICA
+            (IItemInstrument) STEELPAN, (IItemInstrument) CUICA, (IItemInstrument) ACCORDION, (IItemInstrument) TENOR_SAXOPHONE
     );
 
     public static final RecipeSerializer<RecipeNoteCloning> CRAFTING_SPECIAL_NOTECLONING = new SimpleCraftingRecipeSerializer<>(RecipeNoteCloning::new);
@@ -154,6 +158,8 @@ public final class Items {
         registerItem("harpsichord", HARPSICHORD);
         registerItem("steelpan", STEELPAN);
         registerItem("cuica", CUICA);
+        registerItem("accordion", ACCORDION);
+        registerItem("tenor_saxophone", TENOR_SAXOPHONE);
         registerItem("harp_mc", HARP_MC);
         registerItem("music_sheet", MUSIC_SHEET);
         registerItem("music_box", new BlockItem(Blocks.MUSIC_BOX, new Item.Properties()));
