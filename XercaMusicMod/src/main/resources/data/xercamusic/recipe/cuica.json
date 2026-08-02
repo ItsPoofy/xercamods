@@ -6,12 +6,8 @@
     " i "
   ],
   "key": {
-    "i": {
-      "item": "minecraft:iron_nugget"
-    },
-    "l": {
-      "item": "minecraft:leather"
-    }
+    "i": "minecraft:iron_nugget",
+    "l": "minecraft:leather"
   },
   "result": {
     "id": "xercamusic:cuica"

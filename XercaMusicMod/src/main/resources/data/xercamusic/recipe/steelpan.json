@@ -6,12 +6,8 @@
         "s s"
     ],
     "key": {
-        "s": {
-            "item": "minecraft:stick"
-        },
-        "i": {
-            "item": "minecraft:iron_ingot"
-        }
+        "s": "minecraft:stick",
+        "i": "minecraft:iron_ingot"
     },
     "result": {
         "id": "xercamusic:steelpan"

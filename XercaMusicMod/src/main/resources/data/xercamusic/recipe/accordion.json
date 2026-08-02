@@ -6,12 +6,8 @@
     "plp"
   ],
   "key": {
-    "i": {
-      "item": "minecraft:planks"
-    },
-    "l": {
-      "item": "minecraft:leather"
-    }
+    "p": "#minecraft:planks",
+    "l": "minecraft:leather"
   },
   "result": {
     "id": "xercamusic:accordion"
