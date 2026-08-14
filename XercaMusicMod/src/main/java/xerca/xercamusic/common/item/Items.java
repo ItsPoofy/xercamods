@@ -26,7 +26,7 @@ public final class Items {
     public static final Item HARP_MC = new ItemInstrument(-1, 0, 7, properties("harp_mc"));
 
     public static final Item GUITAR = new ItemInstrument(0, 0, 6, properties("guitar"));
-    public static final Item LYRE = new ItemInstrument(1, 1, 5, properties("lyre"));
+    public static final Item LYRE = new ItemInstrument(1, 1, 7, properties("lyre"));
     public static final Item BANJO = new ItemInstrument(2, 0, 4, properties("banjo"));
     public static final Item DRUM = new ItemInstrument(3, 1, 4, properties("drum"));
     public static final Item CYMBAL = new ItemInstrument(4, 0, 4, properties("cymbal"));
@@ -47,6 +47,20 @@ public final class Items {
     public static final Item TRUMPET = new ItemInstrument(19, 2, 5, properties("trumpet"));
     public static final Item REDSTONE_PIANO = new ItemInstrument(20, 0, 6, properties("redstone_piano"));
     public static final Item ORGAN = new ItemInstrument(21, 1, 6, properties("organ"));
+    public static final Item VIBRAPHONE = new ItemInstrument(22, 2, 5, properties("vibraphone"));
+    public static final Item SMALL_MUSIC_BOX = new ItemInstrument(23, 0, 7, properties("small_music_box"));
+    public static final Item KOTO = new ItemInstrument(24, 2, 5, properties("koto"));
+    public static final Item TAIKO = new ItemInstrument(25, 0, 7, properties("taiko"));
+    public static final Item HARP = new ItemInstrument(26, 1, 5, properties("harp"));
+    public static final Item SHAKUHACHI = new ItemInstrument(27, 2, 4, properties("shakuhachi"));
+    public static final Item SHAMISEN = new ItemInstrument(28, 2, 5, properties("shamisen"));
+    public static final Item TIN_WHISTLE = new ItemInstrument(29, 3, 5, properties("tin_whistle"));
+    public static final Item LUTE = new ItemInstrument(30, 1, 4, properties("lute"));
+    public static final Item BONGOS = new ItemInstrument(31, 2, 4, properties("bongos"));
+    public static final Item TIMPANI = new ItemInstrument(32, 2, 5, properties("timpani"));
+    public static final Item GLOCKENSPIEL = new ItemInstrument(33, 2, 5, properties("glockenspiel"));
+    public static final Item MARIMBA = new ItemInstrument(34, 1, 6, properties("marimba"));
+    public static final Item CELESTA = new ItemInstrument(35, 1, 6, properties("celesta"));
     public static final Item MUSIC_SHEET = new ItemMusicSheet(properties("music_sheet"));
 
     public static final CreativeModeTab MUSIC_TAB = FabricCreativeModeTab.builder()
@@ -75,6 +89,20 @@ public final class Items {
                 output.accept(TRUMPET);
                 output.accept(REDSTONE_PIANO);
                 output.accept(ORGAN);
+                output.accept(VIBRAPHONE);
+                output.accept(SMALL_MUSIC_BOX);
+                output.accept(KOTO);
+                output.accept(TAIKO);
+                output.accept(HARP);
+                output.accept(SHAKUHACHI);
+                output.accept(SHAMISEN);
+                output.accept(TIN_WHISTLE);
+                output.accept(LUTE);
+                output.accept(BONGOS);
+                output.accept(TIMPANI);
+                output.accept(GLOCKENSPIEL);
+                output.accept(MARIMBA);
+                output.accept(CELESTA);
                 output.accept(Blocks.MUSIC_BOX);
                 output.accept(Blocks.BLOCK_METRONOME);
             })
@@ -87,7 +115,12 @@ public final class Items {
             (IItemInstrument) SANSULA, (IItemInstrument) VIOLIN, (IItemInstrument) CELLO, (IItemInstrument) FLUTE,
             (IItemInstrument) SAXOPHONE, (IItemInstrument) GOD, (IItemInstrument) PIANO, (IItemInstrument) OBOE,
             (IItemInstrument) REDSTONE_GUITAR, (IItemInstrument) FRENCH_HORN, (IItemInstrument) BASS_GUITAR,
-            (IItemInstrument) TRUMPET, (IItemInstrument) REDSTONE_PIANO, (IItemInstrument) ORGAN
+            (IItemInstrument) TRUMPET, (IItemInstrument) REDSTONE_PIANO, (IItemInstrument) ORGAN,
+            (IItemInstrument) VIBRAPHONE, (IItemInstrument) SMALL_MUSIC_BOX, (IItemInstrument) KOTO,
+            (IItemInstrument) TAIKO, (IItemInstrument) HARP, (IItemInstrument) SHAKUHACHI,
+            (IItemInstrument) SHAMISEN, (IItemInstrument) TIN_WHISTLE, (IItemInstrument) LUTE,
+            (IItemInstrument) BONGOS, (IItemInstrument) TIMPANI, (IItemInstrument) GLOCKENSPIEL,
+            (IItemInstrument) MARIMBA, (IItemInstrument) CELESTA
     );
 
     public static final RecipeSerializer<RecipeNoteCloning> CRAFTING_SPECIAL_NOTECLONING = new RecipeSerializer<>(RecipeNoteCloning.MAP_CODEC, RecipeNoteCloning.STREAM_CODEC);
@@ -156,6 +189,20 @@ public final class Items {
         registerItem("trumpet", TRUMPET);
         registerItem("redstone_piano", REDSTONE_PIANO);
         registerItem("organ", ORGAN);
+        registerItem("vibraphone", VIBRAPHONE);
+        registerItem("small_music_box", SMALL_MUSIC_BOX);
+        registerItem("koto", KOTO);
+        registerItem("taiko", TAIKO);
+        registerItem("harp", HARP);
+        registerItem("shakuhachi", SHAKUHACHI);
+        registerItem("shamisen", SHAMISEN);
+        registerItem("tin_whistle", TIN_WHISTLE);
+        registerItem("lute", LUTE);
+        registerItem("bongos", BONGOS);
+        registerItem("timpani", TIMPANI);
+        registerItem("glockenspiel", GLOCKENSPIEL);
+        registerItem("marimba", MARIMBA);
+        registerItem("celesta", CELESTA);
         registerItem("harp_mc", HARP_MC);
         registerItem("music_sheet", MUSIC_SHEET);
         registerItem("music_box", new BlockItem(Blocks.MUSIC_BOX, blockProperties("music_box")));
